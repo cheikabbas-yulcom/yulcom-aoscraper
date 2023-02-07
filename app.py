@@ -25,7 +25,7 @@ try:
         gd.configure_selection(use_checkbox=True)
 
         gridoptions = gd.build()
-        grid_table = AgGrid(data, gridOptions=gridoptions, theme='alpine')
+        grid_table = AgGrid(data, gridOptions=gridoptions, theme='alpine', height=300)
         sel_row = grid_table['selected_rows']
         st.subheader('Détails')
         if not sel_row:

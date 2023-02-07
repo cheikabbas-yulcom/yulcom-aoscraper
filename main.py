@@ -10,10 +10,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 
-def joffres():
-    # Use a breakpoint in the code line below to debug your script.
-    # print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    URL = "https://joffres.net/recherche?domaine=Informatique+%26+D%C3%A9veloppement&localisation=&societe=&secteur=&prevision=0%2F1000000000&date_publication=&date_expiration=12%2F20%2F2022+-+01%2F31%2F2023&statut=Priv%C3%A9"
+def joffres_scraper(URL):
     page = requests.get(URL)
 
     # print(page.text)
@@ -48,11 +45,19 @@ def joffres():
     donnees['DatePublication'] = list_societe[1:len(list_societe) + 1:2]
     donnees['DateExpiration'] = list_date_exp
     donnees['Liens'] = list_liens
-
-    print(list_date_exp)
-
     data = pd.DataFrame.from_dict(donnees)
     return data
+
+
+def joffres():
+    # Use a breakpoint in the code line below to debug your script.
+    # print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    URL_public = "https://joffres.net/recherche?domaine=Informatique+%26+D%C3%A9veloppement&localisation=&societe=&secteur=&prevision=0%2F1000000000&date_publication=&date_expiration=&statut=Public"
+    URL_prive = "https://joffres.net/recherche?domaine=Informatique+%26+D%C3%A9veloppement&localisation=&societe=&secteur=&prevision=0%2F1000000000&date_publication=&date_expiration=&statut=Priv%C3%A9"
+    public_ao = joffres_scraper(URL_public)
+    prive_ao = joffres_scraper(URL_prive)
+    public_ao.append(prive_ao, ignore_index=True)
+    return public_ao
 
 
 def undp():
